@@ -4,15 +4,116 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Rock Paper Scissors</title>
   </head>
   <body>
+    <section id="gamearea">
+      <h1>Rock Paper Scissors</h1>
+      <p id="games">Match 1:</p>
+      <div id="winnertext">Player, make your choice</div>
+
+      <div id="player">
+        <h2>Player</h2>
+        <div id="playerSelection">
+          <img src="rock.png" id="rock" />
+          <img src="paper.png" id="paper" />
+          <img src="scissors.png" id="scissors" />
+        </div>
+        <p id="playerWins">Victory: 0</p>
+      </div>
+      <div id="computer">
+        <h2>Computer</h2>
+        <div id="computerSelection"></div>
+        <p id="computerWins">Victory: 0</p>
+      </div>
+      <div id="tieText">Tie mathces: 0</div>
+    </section>
+
     <script>
-      const items = ["Rock", "Paper", "Scissors"];
+      const choices = ["rock", "paper", "scissors"];
+      let winner = "";
+      let games = 1;
+      let playerWins = 0;
+      let computerWins = 0;
+      let tie = 0;
 
-      const computerPlay = Math.floor(Math.random() * items.length);
+      function playRound(playerSelection, computerSelection) {
+        if (computerSelection == "rock") {
+          if (playerSelection == "paper") {
+            winner = "Player";
+            playerWins++;
+          } else if (playerSelection == "rock") {
+            winner = "Tie! no one";
+            tie++;
+          } else {
+            winner = "Computer";
+            computerWins++;
+          }
+        }
+        if (computerSelection == "scissors") {
+          if (playerSelection == "rock") {
+            winner = "Player";
+            playerWins++;
+          } else if (playerSelection == "scissors") {
+            winner = "Tie! no one";
+            tie++;
+          } else {
+            winner = "Computer";
+            computerWins++;
+          }
+        }
+        if (computerSelection == "paper") {
+          if (playerSelection == "scissors") {
+            winner = "Player";
+            playerWins++;
+          } else if (playerSelection == "paper") {
+            winner = "Tie! no one";
+            tie++;
+          } else {
+            winner = "Computer";
+            computerWins++;
+          }
+        }
+      }
 
-      console.log(computerPlay, items[computerPlay]);
+      function game(playerSelection) {
+        games++;
+        document.getElementById("games").innerHTML =
+          "Match number: " + games + ":";
+
+        document.getElementById("tieText").innerHTML = "Tie matches: " + tie;
+
+        computerSelection = choices[Math.floor(Math.random() * choices.length)];
+
+        document.getElementById("computerSelection").innerHTML =
+          "<img src='" +
+          computerSelection +
+          ".png' alt='" +
+          computerSelection +
+          "' />";
+
+        playRound(playerSelection, computerSelection);
+
+        document.getElementById("winnertext").innerHTML = winner + " wins!";
+
+        document.getElementById("playerWins").innerHTML =
+          "Victory: " + playerWins;
+
+        setTimeout(function () {
+          document.getElementById("computerWins").innerHTML =
+            "Victory: " + computerWins;
+        }, 1000);
+      }
+
+      rock.addEventListener("click", function () {
+        game("rock");
+      });
+      paper.addEventListener("click", function () {
+        game("paper");
+      });
+      scissors.addEventListener("click", function () {
+        game("scissors");
+      });
     </script>
   </body>
 </html>
